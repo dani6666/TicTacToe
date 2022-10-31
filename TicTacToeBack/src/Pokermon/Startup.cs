@@ -13,7 +13,6 @@ using TicTacToe.Core.Interfaces.Services;
 using TicTacToe.Core.Services;
 using TicTacToe.Repository;
 using TicTacToe.Repository.Repositories;
-using TicTacToe.Workers;
 
 namespace TicTacToe
 {
@@ -52,8 +51,6 @@ namespace TicTacToe
             });
 
             services.AddTransient<IDbContextFactory<GameContext>, GameContextFactory>();
-
-            services.AddHostedService<GameRestartWorker>();
 
             services.AddSingleton<IGamesRepository, GamesRepository>();
             services.AddSingleton<IUserRepository, UserRepository>();

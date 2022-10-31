@@ -22,7 +22,7 @@ namespace TicTacToe.Controllers
             _userService = userService;
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserCredentials userCredentials)
         {
             var userId = await _userService.Authenticate(userCredentials);

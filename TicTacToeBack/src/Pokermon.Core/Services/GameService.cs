@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using TicTacToe.Core.Interfaces.Repositories;
 using TicTacToe.Core.Interfaces.Services;
 using TicTacToe.Core.Model;
@@ -19,28 +20,40 @@ namespace TicTacToe.Core.Services
             _gamesRepository = gamesRepository;
         }
 
-        public GameState GetGame(int gameId, Guid playerId)
+        public GameStateResponse GetGame(int gameId, Guid playerId)
         {
             var gameState = _gamesRepository.GetGame(gameId);
 
             if (gameState == null || (playerId != gameState.CirclePlayerId && playerId != gameState.CrossPlayerId))
                 return null;
 
-            return gameState;
+            bool? isGameWon = gameState.IsEndOfGame
+                ? gameState.Winner != null ?
+                    gameState.Winner == playerId :
+                    null
+                : null;
+
+            return new GameStateResponse(gameState.CirclePlayerName, gameState.CrossPlayerName, gameState.IsWaitingForPlayers, gameState.IsEndOfGame,
+                isGameWon, gameState.PlayersTurn == playerId, gameState.Board);
         }
 
-        public int GetOrCreateGame(Guid firstPlayerId)
+        public async Task<int?> GetOrCreateGame(Guid playerId)
         {
+            var playerName = await _userRepository.GetPlayerName(playerId);
+
+            if (playerName == null)
+                return null;
+
             var gameId = _gamesRepository.GetAwaitingGameId();
 
             if (gameId.HasValue)
             {
-                _gamesRepository.AddGame(gameId.Value, new GameState(gameId.Value));
+                _gamesRepository.StartGame(gameId.Value, playerId, playerName);
 
                 return gameId.Value;
             }
 
-            return _gamesRepository.CreateWaitingGame(firstPlayerId);
+            return _gamesRepository.CreateWaitingGame(playerId, playerName);
         }
 
         public MoveResult MakeMove(int id, Guid playerId, int moveX, int moveY)
@@ -50,55 +63,52 @@ namespace TicTacToe.Core.Services
             if (game == null)
                 return MoveResult.NotFoundError;
 
-            if (playerId == game.CirclePlayerId)
-            {
-                if (game.PlayersTurn != Player.Circle)
-                    return MoveResult.InvalidMove;
-            }
-            else if (playerId == game.CrossPlayerId)
-            {
-                if (game.PlayersTurn != Player.Cross)
-                    return MoveResult.InvalidMove;
-            }
-            else
-                return MoveResult.NotFoundError;
-
-            if (game.Board[moveX, moveY] != TileType.Empty)
+            if (playerId != game.PlayersTurn)
                 return MoveResult.InvalidMove;
 
-            game.Board[moveX, moveY] = game.PlayersTurn == Player.Circle ? TileType.Circle : TileType.Cross;
+            if (playerId != game.CrossPlayerId && playerId != game.CirclePlayerId)
+                return MoveResult.NotFoundError;
 
-            var winner = CheckForWinner(game.Board);
+            if (game.Board[moveX][moveY] != TileType.Empty)
+                return MoveResult.InvalidMove;
 
-            if (winner != null)
+            game.Board[moveX][moveY] = game.PlayersTurn == game.CirclePlayerId ? TileType.Circle : TileType.Cross;
+
+            var winningPlayer = CheckForWinner(game.Board);
+
+            if (winningPlayer != null)
             {
-                if (winner == Player.Circle)
+                if (winningPlayer == Player.Circle)
                 {
+                    game.Winner = game.CirclePlayerId;
                     _userRepository.UpdateWinnerResults(game.CirclePlayerId);
                     _userRepository.UpdateLoserResults(game.CrossPlayerId);
                 }
                 else
                 {
+                    game.Winner = game.CrossPlayerId;
                     _userRepository.UpdateWinnerResults(game.CrossPlayerId);
                     _userRepository.UpdateLoserResults(game.CirclePlayerId);
                 }
 
-                return MoveResult.GameEnded;
+                game.IsEndOfGame = true;
+                return MoveResult.CorrectMove;
             }
 
-            if (game.Board.Cast<TileType>().All(tileType => tileType != TileType.Empty))
+            if (game.Board.All(tileTypes => tileTypes.All(tileType => tileType != TileType.Empty)))
             {
                 _userRepository.UpdateDrawResults(game.CirclePlayerId, game.CrossPlayerId);
 
-                return MoveResult.GameEnded;
+                game.IsEndOfGame = true;
+                return MoveResult.CorrectMove;
             }
 
-            game.PlayersTurn = game.PlayersTurn == Player.Circle ? Player.Cross : Player.Circle;
+            game.PlayersTurn = game.PlayersTurn == game.CirclePlayerId ? game.CrossPlayerId : game.CirclePlayerId;
 
             return MoveResult.CorrectMove;
         }
 
-        private static Player? CheckForWinner(TileType[,] gameBoard)
+        private static Player? CheckForWinner(TileType[][] gameBoard)
         {
             foreach (var tileType in new[] { TileType.Circle, TileType.Cross })
             {
@@ -107,7 +117,7 @@ namespace TicTacToe.Core.Services
                     int j;
                     for (j = 0; j < 3; j++)
                     {
-                        if (gameBoard[i, j] != tileType)
+                        if (gameBoard[i][j] != tileType)
                             break;
                     }
 
@@ -116,7 +126,7 @@ namespace TicTacToe.Core.Services
 
                     for (j = 0; j < 3; j++)
                     {
-                        if (gameBoard[j, i] != tileType)
+                        if (gameBoard[j][i] != tileType)
                             break;
                     }
 
@@ -127,7 +137,7 @@ namespace TicTacToe.Core.Services
                 int k;
                 for (k = 0; k < 3; k++)
                 {
-                    if (gameBoard[k, k] != tileType)
+                    if (gameBoard[k][k] != tileType)
                         break;
                 }
 
@@ -136,7 +146,7 @@ namespace TicTacToe.Core.Services
 
                 for (k = 0; k < 3; k++)
                 {
-                    if (gameBoard[k, 2 - k] != tileType)
+                    if (gameBoard[k][2 - k] != tileType)
                         break;
                 }
 
@@ -149,18 +159,5 @@ namespace TicTacToe.Core.Services
 
         private static Player GetWinner(TileType tileType) =>
             tileType == TileType.Circle ? Player.Circle : Player.Cross;
-
-        public void CreateNewGame(int id)
-        {
-            _gamesRepository.AddGame(id, new GameState(id));
-        }
-
-        public void RestartGames()
-        {
-            var games = _gamesRepository.GetGamesToRestart(DateTime.UtcNow.AddSeconds(-5));
-
-            foreach (var game in games)
-                game.Restart();
-        }
     }
 }

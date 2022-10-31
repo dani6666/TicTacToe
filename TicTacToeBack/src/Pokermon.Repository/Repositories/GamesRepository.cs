@@ -11,7 +11,6 @@ namespace TicTacToe.Repository.Repositories
     {
         private static readonly ConcurrentDictionary<int, GameState> Games = new();
         private static int? WaitingGameId = null;
-        private static Guid? WaitingPlayerId = null;
         private static int _nextGameId = 0;
 
         public GameState GetGame(int id) =>
@@ -19,19 +18,27 @@ namespace TicTacToe.Repository.Repositories
 
         public int? GetAwaitingGameId() => WaitingGameId;
 
-        public int CreateWaitingGame(Guid firstPlayerId)
+        public int CreateWaitingGame(Guid firstPlayerId, string firstPlayerName)
         {
-            WaitingPlayerId = firstPlayerId;
+            var game = new GameState(_nextGameId);
+            game.CirclePlayerId = firstPlayerId;
+            game.CirclePlayerName = firstPlayerName;
+            game.IsWaitingForPlayers = true;
+
+            Games.TryAdd(_nextGameId, game);
+
             WaitingGameId = _nextGameId;
             return _nextGameId++;
         }
 
-        public void AddGame(int id, GameState newGameState)
+        public void StartGame(int id, Guid secondPlayerId, string secondPlayerName)
         {
-            Games[id] = newGameState;
+            WaitingGameId = null;
+            var game = Games[id];
+            game.CrossPlayerId = secondPlayerId;
+            game.CrossPlayerName = secondPlayerName;
+            game.PlayersTurn = game.CirclePlayerId;
+            game.IsWaitingForPlayers = false;
         }
-
-        public IEnumerable<GameState> GetGamesToRestart(DateTime endOfHandTime) =>
-            Games.Values.Where(g => g.IsEndOfGame && g.GameEndTime < endOfHandTime);
     }
 }

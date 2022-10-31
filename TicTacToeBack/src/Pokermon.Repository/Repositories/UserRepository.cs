@@ -43,6 +43,13 @@ namespace TicTacToe.Repository.Repositories
             return user?.Id;
         }
 
+        public async Task<string?> GetPlayerName(Guid playerId)
+        {
+            await using var context = await _contextFactory.CreateDbContextAsync();
+
+            return GetUserById(context, playerId)?.Name;
+        }
+
         public async Task<bool> ValidatePlayerId(Guid playerId)
         {
             await using var context = await _contextFactory.CreateDbContextAsync();
@@ -54,7 +61,7 @@ namespace TicTacToe.Repository.Repositories
         {
             await using var context = await _contextFactory.CreateDbContextAsync();
 
-            return context.Users.Select(u => new PlayerResult(u.Name, u.WonGames, u.LostGames)).ToList();
+            return context.Users.Select(u => new PlayerResult(u.Name, u.WonGames, u.DrawGames, u.LostGames)).ToList();
         }
 
         public async Task UpdateWinnerResults(Guid playerId)

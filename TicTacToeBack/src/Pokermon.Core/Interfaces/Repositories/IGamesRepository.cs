@@ -8,8 +8,7 @@ namespace TicTacToe.Core.Interfaces.Repositories
     {
         GameState GetGame(int id);
         int? GetAwaitingGameId();
-        int CreateWaitingGame(Guid firstPlayerId);
-        void AddGame(int id, GameState newGameState);
-        IEnumerable<GameState> GetGamesToRestart(DateTime endOfHandTime);
+        int CreateWaitingGame(Guid firstPlayerId, string firstPlayerName);
+        void StartGame(int id, Guid secondPlayerId, string secondPlayerName);
     }
 }

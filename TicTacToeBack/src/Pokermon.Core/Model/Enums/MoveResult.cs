@@ -3,7 +3,6 @@
     public enum MoveResult
     {
         CorrectMove,
-        GameEnded,
         InvalidMove,
         NotFoundError
     }

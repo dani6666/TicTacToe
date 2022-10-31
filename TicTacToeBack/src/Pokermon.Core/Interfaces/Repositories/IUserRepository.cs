@@ -8,6 +8,7 @@ namespace TicTacToe.Core.Interfaces.Repositories;
 public interface IUserRepository
 {
     Task<Guid?> Authenticate(string username, string password);
+    Task<string?> GetPlayerName(Guid playerId);
     Task<bool> ValidatePlayerId(Guid playerId);
     Task<IEnumerable<PlayerResult>> GetAllPlayersResults();
     Task UpdateWinnerResults(Guid playerId);

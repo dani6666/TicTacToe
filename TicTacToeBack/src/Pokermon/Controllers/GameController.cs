@@ -8,7 +8,6 @@ using TicTacToe.Core.Model.Enums;
 
 namespace TicTacToe.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class GameController : ControllerBase
@@ -23,23 +22,31 @@ namespace TicTacToe.Controllers
         }
 
         [HttpGet("{id}")]
-        public GameState Index(int id, [FromHeader] Guid playerId)
+        public ActionResult<GameStateResponse> Index(int id, [FromHeader] Guid playerId)
         {
-            return _gameService.GetGame(id, playerId);
+            var gameState = _gameService.GetGame(id, playerId);
+
+            if (gameState == null)
+                return NotFound();
+
+            return gameState;
         }
 
-        [HttpPost]
+        [HttpPost("join")]
         public async Task<IActionResult> JoinGame([FromHeader] Guid playerId)
         {
             if (!await _userService.ValidatePlayerId(playerId))
                 return Unauthorized();
 
-            var gameId = _gameService.GetOrCreateGame(playerId);
+            var gameId = await _gameService.GetOrCreateGame(playerId);
+
+            if (gameId == null)
+                return Unauthorized();
 
             return Ok(gameId);
         }
 
-        [HttpPost("fold/{id}")]
+        [HttpPost("move/{id}")]
         public ActionResult MakeMove(int id, [FromHeader] Guid playerId, [FromBody] Move move)
         {
             var moveResult = _gameService.MakeMove(id, playerId, move.X, move.Y);

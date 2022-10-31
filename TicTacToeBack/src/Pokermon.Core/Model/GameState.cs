@@ -11,27 +11,32 @@ namespace TicTacToe.Core.Model
         public int GameId { get; set; }
         public Guid CirclePlayerId { get; set; }
         public Guid CrossPlayerId { get; set; }
+        public string CirclePlayerName { get; set; }
+        public string CrossPlayerName { get; set; }
         public bool IsWaitingForPlayers { get; set; } = true;
         public bool IsEndOfGame { get; set; }
-        public DateTime? GameEndTime { get; set; }
-        public Player PlayersTurn { get; set; } = Player.Circle;
-        public TileType[,] Board { get; set; } = new TileType[3, 3];
+        public Guid PlayersTurn { get; set; }
+        public Guid? Winner { get; set; }
+        public TileType[][] Board { get; set; } = new TileType[3][];
 
         public GameState(int id)
         {
             GameId = id;
+
+            for (var i = 0; i < 3; i++)
+                Board[i] = new TileType[3];
         }
 
         public void End()
         {
             IsEndOfGame = true;
-            GameEndTime = DateTime.UtcNow;
+            //GameEndTime = DateTime.UtcNow;
         }
         public void Restart()
         {
-            Board = new TileType[3, 3];
-            PlayersTurn = Player.Circle;
-            GameEndTime = null;
+            //Board = new TileType[3, 3];
+            //PlayersTurn = Player.Circle;
+            //GameEndTime = null;
             IsEndOfGame = false;
         }
     }

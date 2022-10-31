@@ -19,7 +19,7 @@ namespace TicTacToe.Core.Services
 
         public async Task<List<PlayerResult>> ListPlayerResults()
         {
-            return (await _userRepository.GetAllPlayersResults()).ToList();
+            return (await _userRepository.GetAllPlayersResults()).OrderByDescending(p => (p.WonGames, p.DrawGames, p.LostGames)).ToList();
         }
     }
 }
