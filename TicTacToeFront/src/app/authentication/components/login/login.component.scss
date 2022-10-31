@@ -1,0 +1,11 @@
+label {
+    font-size: large;
+    margin: 5px;
+    margin-top: 10px;
+}
+
+input.ng-invalid.ng-touched {
+
+    border: red 1px solid;
+    background-color: #f9bcbc;
+}

@@ -1,0 +1,15 @@
+
+
+.grid-container {
+    display: grid;
+    grid-gap: 5px;
+    margin: 20px;
+    width: 160px;
+    height: 160px;
+    grid-template-columns: repeat(3, 1fr);
+
+    button {
+        height: 50px;
+        width: 50px;
+    }
+}

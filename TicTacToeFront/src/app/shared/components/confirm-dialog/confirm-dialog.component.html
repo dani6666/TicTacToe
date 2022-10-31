@@ -1,0 +1,8 @@
+<div class="my-2 mx-3">
+  <div *ngFor="let line of this.data.displayLines" class="row justify-content-center">
+    <h5 class="col-12 my-1 text-center">{{ line }}</h5>
+  </div>
+  <div class="row justify-content-center">
+    <button class="col-6 mt-4 mb-2 btn btn-primary btn-large" (click)="okButtonClicked();">OK</button>
+  </div>
+</div>

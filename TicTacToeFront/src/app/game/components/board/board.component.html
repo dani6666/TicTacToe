@@ -1,0 +1,18 @@
+<div><span>{{ titleText }}</span></div>
+<div class="grid-container">
+    <button type="button" [disabled]="boardButtonsDisabled" class="btn btn-lg btn-primary" (click)="boardClicked(0,0);">{{ board[0][0] }}</button>
+    <button type="button" [disabled]="boardButtonsDisabled" class="btn btn-lg btn-primary" (click)="boardClicked(0,1);">{{ board[0][1] }}</button>
+    <button type="button" [disabled]="boardButtonsDisabled" class="btn btn-lg btn-primary" (click)="boardClicked(0,2);">{{ board[0][2] }}</button>
+    <button type="button" [disabled]="boardButtonsDisabled" class="btn btn-lg btn-primary" (click)="boardClicked(1,0);">{{ board[1][0] }}</button>
+    <button type="button" [disabled]="boardButtonsDisabled" class="btn btn-lg btn-primary" (click)="boardClicked(1,1);">{{ board[1][1] }}</button>
+    <button type="button" [disabled]="boardButtonsDisabled" class="btn btn-lg btn-primary" (click)="boardClicked(1,2);">{{ board[1][2] }}</button>
+    <button type="button" [disabled]="boardButtonsDisabled" class="btn btn-lg btn-primary" (click)="boardClicked(2,0);">{{ board[2][0] }}</button>
+    <button type="button" [disabled]="boardButtonsDisabled" class="btn btn-lg btn-primary" (click)="boardClicked(2,1);">{{ board[2][1] }}</button>
+    <button type="button" [disabled]="boardButtonsDisabled" class="btn btn-lg btn-primary" (click)="boardClicked(2,2);">{{ board[2][2] }}</button>
+</div>
+<div class="row m-3">
+    <button type="button" [disabled]="exitButtonsDisabled" class="btn btn-lg btn-primary" (click)="startNewGame();">Start new game</button>
+</div>
+<div class="row m-3">
+    <button type="button" [disabled]="exitButtonsDisabled" class="btn btn-lg btn-warning" (click)="exitToMainMenu();">Exit to main menu</button>
+</div>

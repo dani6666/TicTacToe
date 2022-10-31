@@ -1,0 +1,45 @@
+<div class="fluid-container">
+  <div class="d-flex justify-content-between">
+    <h1 class="m-4">Players ranking</h1>
+  </div>
+
+  <div class="card my-3 mx-3">
+    <div class="card-body">
+      <div class="row align-items-center">
+        <div class="col-6">
+          <h4 class="card-title">Player</h4>
+        </div>
+        <div class="col-2">
+          <h4>Wins</h4>
+        </div>
+        <div class="col-2">
+          <h4>Draws</h4>
+        </div>
+        <div class="col-2">
+          <h4>Loses</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngFor="let playerRank of ranking" class="card mx-3 my-2">
+    <div class="card-body">
+      <div class="row align-items-center">
+        <div class="col-6">
+          <h4 class="card-title">{{ playerRank.name }}</h4>
+        </div>
+        <div class="col-2">
+          <h4>{{ playerRank.wonGames }}</h4>
+        </div>
+        <div class="col-2">
+          <h4>{{ playerRank.drawGames }}</h4>
+        </div>
+        <div class="col-2">
+          <h4>{{ playerRank.lostGames }}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row m-3">
+    <button type="button" class="btn btn-lg btn-warning" (click)="exitToMainMenu();">Exit to main menu</button>
+</div>
+</div>
