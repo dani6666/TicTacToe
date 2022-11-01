@@ -6,7 +6,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "public-transport-ticket": {
+    "tictactoe": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/public-transport-ticket",
+            "outputPath": "dist/tictactoe",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -71,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "public-transport-ticket:build:production"
+              "browserTarget": "tictactoe:build:production"
             },
             "development": {
-              "browserTarget": "public-transport-ticket:build:development"
+              "browserTarget": "tictactoe:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -82,7 +82,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "public-transport-ticket:build"
+            "browserTarget": "tictactoe:build"
           }
         },
         "test": {
@@ -111,5 +111,5 @@
       "style": "scss"
     }
   },
-  "defaultProject": "public-transport-ticket"
+  "defaultProject": "tictactoe"
 }

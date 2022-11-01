@@ -30,16 +30,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'public-transport-ticket'`, () => {
+  it(`should have as title 'tictactoe'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('public-transport-ticket');
+    expect(app.title).toEqual('tictactoe');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('section.bg-primary h1')?.textContent).toContain('Public Transport Ticket');
+    expect(compiled.querySelector('section.bg-primary h1')?.textContent).toContain('Tic Tac Toe');
   });
 });

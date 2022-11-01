@@ -22,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Pokermon.Core\TicTacToe.Core.csproj" />
-    <ProjectReference Include="..\Pokermon.Repository\TicTacToe.Repository.csproj" />
+    <ProjectReference Include="..\TicTacToe.Core\TicTacToe.Core.csproj" />
+    <ProjectReference Include="..\TicTacToe.Repository\TicTacToe.Repository.csproj" />
   </ItemGroup>
 
 </Project>

@@ -52,26 +52,4 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-
-  // goToRegisterPage(): void {
-  //   this.router.navigate(["/register"])
-  // }
-
-  // redirectLoggedUser(role: UserRole): void {
-  //   if (role == UserRole.Customer)
-  //     this.router.navigate(["/tickets/list"])
-  //   else if (role == UserRole.TicketController)
-  //     this.router.navigate(["/control"])
-  //   else {
-  //     this.tokenStorage.signOut()
-  //     let dialogRef = this.dialog.open(ConfirmDialogComponent, {
-  //       data: { displayLines: ['Login failed'] }
-  //     });
-
-  //     dialogRef.afterClosed().subscribe(r => {
-  //       this.loginForm.reset();
-  //     });
-  //   }
-      
-  // }
 }

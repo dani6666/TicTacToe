@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicTacToe", "Pokermon\TicTacToe.csproj", "{7F2E9909-F14B-42C4-8870-1C0F88A7600E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicTacToe", "TicTacToe\TicTacToe.csproj", "{7F2E9909-F14B-42C4-8870-1C0F88A7600E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicTacToe.Core", "Pokermon.Core\TicTacToe.Core.csproj", "{0AF0D40A-0714-472A-AD00-49A55471B910}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicTacToe.Core", "TicTacToe.Core\TicTacToe.Core.csproj", "{0AF0D40A-0714-472A-AD00-49A55471B910}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicTacToe.Repository", "Pokermon.Repository\TicTacToe.Repository.csproj", "{E483C818-EA68-4548-A11A-61E8D0BADCD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicTacToe.Repository", "TicTacToe.Repository\TicTacToe.Repository.csproj", "{E483C818-EA68-4548-A11A-61E8D0BADCD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
