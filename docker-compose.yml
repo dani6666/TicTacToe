@@ -1,0 +1,18 @@
+version: '3'
+services:
+  tictactoe-api:
+    build: ./TicTacToeBack/src
+    container_name: tictactoe-api
+    ports:
+      - 8000:8000
+
+  tictactoe-ui:
+    build: ./TicTacToeFront
+    container_name: tictactoe-ui
+    ports:
+      - 4200:80
+    links:
+      - tictactoe-api
+
+volumes:
+  kanban-data:
