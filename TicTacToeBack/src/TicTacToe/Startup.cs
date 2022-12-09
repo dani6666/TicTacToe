@@ -1,15 +1,21 @@
+using System;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MySqlConnector;
 using TicTacToe.Core.Interfaces.Repositories;
 using TicTacToe.Core.Interfaces.Services;
+using TicTacToe.Core.Model.Entities;
 using TicTacToe.Core.Services;
 using TicTacToe.Repository;
 using TicTacToe.Repository.Repositories;
@@ -41,16 +47,17 @@ namespace TicTacToe
             //    options.UseInMemoryDatabase("GamesDatabase");
             //});
 
-            services.AddTransient(_  =>
-            {
-                var optionsBuilder = new DbContextOptionsBuilder<GameContext>();
+            var host = Environment.GetEnvironmentVariable("DB_HOST");
+            var port = Environment.GetEnvironmentVariable("DB_PORT");
+            var database = Environment.GetEnvironmentVariable("DB_NAME");
+            var user = Environment.GetEnvironmentVariable("DB_USER");
+            var password = Environment.GetEnvironmentVariable("DB_PASSWORD");
+            var connectionString =
+                $"Server={host};Port={port};Database={database};Uid={user};Pwd={password};";
 
-                optionsBuilder.UseInMemoryDatabase("GamesDatabase");
-
-                return optionsBuilder.Options;
-            });
-
-            services.AddTransient<IDbContextFactory<GameContext>, GameContextFactory>();
+            services.AddDbContextFactory<GameContext>(options =>
+                //options.UseSqlite("temp.db"));
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
             services.AddSingleton<IGamesRepository, GamesRepository>();
             services.AddSingleton<IUserRepository, UserRepository>();
@@ -63,6 +70,28 @@ namespace TicTacToe
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            var retryCount = 0;
+            while (retryCount < 18)
+            {
+                try
+                {
+                    using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+                    {
+                        var context = serviceScope.ServiceProvider.GetRequiredService<GameContext>();
+                        context.Database.Migrate();
+                    }
+                }
+                catch (MySqlException)
+                {
+                    Task.Delay(TimeSpan.FromSeconds(10)).GetAwaiter().GetResult();
+                    retryCount++;
+                    continue;
+                }
+
+                break;
+            }
+            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

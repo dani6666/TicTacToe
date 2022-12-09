@@ -15,18 +15,14 @@ namespace TicTacToe.Repository.Repositories
     {
         private readonly IDbContextFactory<GameContext> _contextFactory;
 
-        private static bool _seeded = false;
-
         public UserRepository(IDbContextFactory<GameContext> contextFactory)
         {
             _contextFactory = contextFactory;
 
-            if (!_seeded)
+            using var context = _contextFactory.CreateDbContext();
+
+            if (!context.Users.Any())
             {
-                _seeded = true;
-
-                using var context = _contextFactory.CreateDbContext();
-
                 for (int i = 0; i < 100; i++)
                     context.Users.Add(new User { Id = Guid.NewGuid(), Name = $"name{i}", Password = $"password{i}" });
 

@@ -1,19 +1,16 @@
 {
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:8000"
-    }
-  },
-  "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DB_HOST": "localhost",
+        "DB_USER": "user",
+        "DB_PORT": "3306",
+        "DB_PASSWORD": "my-secret-password",
+        "DB_NAME": "mysql-db"
       }
     },
     "TicTacToe": {
@@ -29,10 +26,18 @@
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:8000
-        /swagger",
+      "launchUrl": "http://localhost:8000\n        /swagger",
       "publishAllPorts": true,
       "applicationUrl": "http://localhost:8000"
+    }
+  },
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:8000",
+      "sslPort": 0
     }
   }
 }

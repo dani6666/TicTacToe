@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TicTacToe.Core.Model.Entities;
 
@@ -18,9 +15,15 @@ namespace TicTacToe.Repository
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+            //modelBuilder.Entity<User>().HasData(GetSeedUsers());
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        private IEnumerable<User> GetSeedUsers()
+        {
+            for (int i = 0; i < 100; i++)
+                yield return new User { Id = Guid.NewGuid(), Name = $"name{i}", Password = $"password{i}" };
         }
     }
 }

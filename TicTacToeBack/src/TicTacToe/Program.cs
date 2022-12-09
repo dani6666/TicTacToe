@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -15,7 +16,7 @@ namespace TicTacToe
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseUrls("http://0.0.0.0:8000");
+                    webBuilder.UseUrls($"http://0.0.0.0:{Environment.GetEnvironmentVariable("API_LOCAL_PORT") ?? "8000"}");
                 });
     }
 }
