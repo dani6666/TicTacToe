@@ -32,6 +32,33 @@ Role: LabRole
 key pair: vockey
 profile: LabInstanceProfile
 
+Database:
+Snapshot: None
+Engine: mysql
+Storage: 5 GB
+Username: USERNAME
+Password: PASSWORD
+Availability: Low
+Deletion policy: Delete
+
+After creating
+Configuration -> Software -> Environment properties:
+DB_HOST ...
+DB_PORT 3306
+DB_NAME ebdb
+DB_USER ...
+DB_PASSWORD ...
+
+Apply
+Redepoly
+
+Rds -> Databases
+Connetivity and Security / Configuration
+
+To delete:
+Rds
+Beanstalk -> Terminate env
+Beanstalk -> Delete app
 
 Creating Auto Scaling group failed Reason: API: autoscaling:CreateAutoScalingGroup User: arn:aws:sts::295012466370:assumed-role/voclabs/user2253007=W__udarczyk_Daniel_Adam is not authorized to perform: autoscaling:CreateAutoScalingGroup on resource: arn:aws:autoscaling:us-east-1:295012466370:autoScalingGroup:*:autoScalingGroupName/awseb-e-rzesmbyzmk-stack-AWSEBAutoScalingGroup-ZNL7EEJ55X2F because no identity-based policy allows the autoscaling:CreateAutoScalingGroup action
 
