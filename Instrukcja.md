@@ -6,6 +6,37 @@ Aplikacja składa się z API napisanego w .NET 6 w C#. Api korzysta z bazy in-me
 
 ## Wdrożenie na AWS
 
+Create repository
+private
+
+Set-ExecutionPolicy -ExecutionPolicy Undefined
+Import-Module AWS.Tools.CommonAWS.Tools.Common nie działa:
+    The specified module 'AWS.Tools.CommonAWS.Tools.Common' was not loaded because no valid module file
+    was found in any module directory.
+
+Amazon Elastic Beanstalk
+Create Application
+Docker 
+ECS running...
+name, 
+your code - file
+Configura more option
+Security
+Service role: LabRole
+EC2 key pair: vockey
+IAM instance profile: LabInstanceRole
+
+Role: LabRole
+key pair: vockey
+profile: LabInstanceProfile
+
+
+Creating Auto Scaling group failed Reason: API: autoscaling:CreateAutoScalingGroup User: arn:aws:sts::295012466370:assumed-role/voclabs/user2253007=W__udarczyk_Daniel_Adam is not authorized to perform: autoscaling:CreateAutoScalingGroup on resource: arn:aws:autoscaling:us-east-1:295012466370:autoScalingGroup:*:autoScalingGroupName/awseb-e-rzesmbyzmk-stack-AWSEBAutoScalingGroup-ZNL7EEJ55X2F because no identity-based policy allows the autoscaling:CreateAutoScalingGroup action
+
+
+<!-- Nie może stworzyć środowiska:
+You do not have enough permissions. Failed to create default instance profile: User: arn:aws:sts::295012466370:assumed-role/voclabs/user2253007=W__udarczyk_Daniel_Adam is not authorized to perform: iam:CreateRole on resource: arn:aws:iam::295012466370:role/aws-elasticbeanstalk-ec2-role because no identity-based policy allows the iam:CreateRole action (Service: AmazonIdentityManagement; Status Code: 403; Error Code: AccessDenied; Request ID: bfe14271-27a7-4f7c-aa23-673c971a8f8a; Proxy: null) -->
+
 
 ### Publikacja kontenerów
 

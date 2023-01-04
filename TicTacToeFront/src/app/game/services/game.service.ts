@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { GameState } from '../model/game-state';
 
-const baseUrl = 'http://localhost:8000/api/game/';
+const baseUrl = 'http://'+window.location.hostname+'/api/game/';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

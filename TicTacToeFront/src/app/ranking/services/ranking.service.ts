@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PlayerRank } from '../model/player-rank';
 
-const baseUrl = 'http://localhost:8000/api/players';
+const baseUrl = 'http://'+window.location.hostname+'/api/players';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
