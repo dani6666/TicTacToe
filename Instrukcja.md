@@ -20,11 +20,13 @@ Docker
 ECS running...
 name, 
 your code - file
+Source code origin .aws.json
 Configura more option
 Security
 Service role: LabRole
 EC2 key pair: vockey
 IAM instance profile: LabInstanceRole
+
 
 Role: LabRole
 key pair: vockey
