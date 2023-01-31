@@ -2,20 +2,6 @@
   "AWSEBDockerrunVersion": 2,
   "containerDefinitions": [
     {
-      "name": "tictactoe-api",
-      "image": "dani6666/tictactoe-back:latest",
-      "hostname": "tictactoe-api",
-      "essential": true,
-      "memory": 256
-    },
-    {
-      "name": "tictactoe-web",
-      "image": "dani6666/tictactoe-front:latest",
-      "hostname": "tictactoe-web",
-      "essential": true,
-      "memory": 256
-    },
-    {
       "name": "tictactoe-router",
       "image": "dani6666/tictactoe-router:latest",
       "hostname": "tictactoe-router",
@@ -26,10 +12,6 @@
           "hostPort": 80,
           "containerPort": 80
         }
-      ],
-      "links": [
-        "tictactoe-api",
-        "tictactoe-web"
       ]
     }
   ]
