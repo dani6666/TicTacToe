@@ -8,8 +8,9 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'chmod +x build-images.sh'
-                sh 'sudo ./build-images.sh'
+                sh 'docker build ./TicTacToeBack/src -t dani6666/tictactoe-api'
+                sh 'docker build ./TicTacToeFront -t dani6666/tictactoe-ui'
+                sh 'docker build ./Router -t dani6666/tictactoe-router'
             }
         }
 
