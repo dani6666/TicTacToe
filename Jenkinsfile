@@ -8,9 +8,9 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'docker build ./TicTacToeBack/src -t dani6666/tictactoe-api'
-                sh 'docker build ./TicTacToeFront -t dani6666/tictactoe-ui'
-                sh 'docker build ./Router -t dani6666/tictactoe-router'
+                sh 'sudo docker build ./TicTacToeBack/src -t dani6666/tictactoe-api'
+                sh 'sudo docker build ./TicTacToeFront -t dani6666/tictactoe-ui'
+                sh 'sudo docker build ./Router -t dani6666/tictactoe-router'
             }
         }
 
