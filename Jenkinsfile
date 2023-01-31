@@ -22,9 +22,9 @@ pipeline {
         stage('Push') {
 
 			steps {
-				sh 'docker push dani666/tictactoe-back:latest'
-                sh 'docker push dani666/tictactoe-front:latest'
-                sh 'docker push dani666/tictactoe-router:latest'
+				sh 'sudo docker push dani666/tictactoe-back:latest'
+                sh 'sudo docker push dani666/tictactoe-front:latest'
+                sh 'sudo docker push dani666/tictactoe-router:latest'
 			}
 		}
 
