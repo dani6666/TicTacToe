@@ -32,11 +32,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh 'echo "
-                
-us-east-1
-
-" | aws configure'
+                sh 'aws configure set aws_access_key_id "" && aws configure set aws_secret_access_key "" && aws configure set region "us-east-1" && aws configure set output ""'
                 sh 'aws elasticbeanstalk update-environment --environment-name Tictactoe-env --version-label tictactoe-source'
             }
         }
