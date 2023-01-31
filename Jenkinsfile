@@ -30,5 +30,9 @@ pipeline {
 			}
 		}
 
+        stage('Deploy') {
+            sh 'aws elasticbeanstalk update-environment --environment-name Tictactoe-env --version-label tictactoe-source'
+        }
+
     }
 }
