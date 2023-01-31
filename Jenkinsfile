@@ -32,6 +32,11 @@ pipeline {
 
         stage('Deploy') {
             steps {
+                sh 'echo "
+                
+us-east-1
+
+" | aws configure'
                 sh 'aws elasticbeanstalk update-environment --environment-name Tictactoe-env --version-label tictactoe-source'
             }
         }
